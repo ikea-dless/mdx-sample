@@ -1,0 +1,59 @@
+import { Layout } from "../components/layouts/Layout"
+import { Counter } from "../components/Counter"
+import AboutContent, { meta as aboutMeta } from "./about.mdx"
+
+# サンプルです
+
+<div>
+  { ["hoge", "fuga"].map(word => (
+    <p>{word}</p>
+  )) }
+  # これはh1にならない
+</div>
+
+<!-- コメントアウト -->
+
+<div>
+  {/* コメントアウト */}
+</div>
+
+```tsx
+// コードブロックが書ける
+type Props = { name: string }
+export const Component: FC<Props> = ({ name }) => <>{name}</>
+```
+
+- exportのない変数宣言はできない
+
+export const hoge = "hoge"
+
+- 文章とexportの間に空行がない場合は文章として扱われるぽい
+- constであればちゃんとMDX内でも再定義できない
+export const hoge = "hoge"
+
+<!--
+export あああ
+これはexport構文と解釈されてエラーとなる
+-->
+
+もちろんコンポーネントも使える
+<Counter />
+
+別のMDXをimportすることもできる(jsxなら当たり前ではある)
+<AboutContent />
+<div>
+  title: { aboutMeta.title }
+</div>
+
+定義済みの変数があったりする
+import MDXContent from "./about.mdx" // MDXContentはjsxで宣言される関数名ぽい
+
+- export defaultする関数にchildren(このmdxコンポーネント)が渡されるので、好きにwrapできる
+
+export default ({ children }) => (
+  <Layout meta={{
+    title: "サンプル"
+  }}>
+    {children}
+  </Layout>
+)
